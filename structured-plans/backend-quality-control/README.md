@@ -38,7 +38,8 @@ Read in this order:
 11. [Frontend Integration](./implementation/04-frontend-integration.md)
 12. [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
 13. [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
-14. The individual backend system specs under `systems/`
+14. [Agent OS Existing Repo Grounding](./implementation/07-agent-os-existing-repo-grounding.md)
+15. The individual backend system specs under `systems/`
 
 ## What this is inspired by
 
@@ -112,6 +113,7 @@ These files are the most concrete implementation guidance for the next coding ag
 - [Frontend Integration](./implementation/04-frontend-integration.md)
 - [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
 - [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
+- [Agent OS Existing Repo Grounding](./implementation/07-agent-os-existing-repo-grounding.md)
 
 ## Individual backend system specs
 
