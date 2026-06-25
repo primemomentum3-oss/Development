@@ -17,7 +17,7 @@ The agent can write code.
 Agent OS must check the work with backend code.
 ```
 
-Agent OS should use deterministic backend checks for lifecycle, safety, verification, result inspection, cleanup, and failure classification.
+Agent OS should use deterministic backend checks for lifecycle, safety, verification, result inspection, cleanup, failure classification, context packaging, and anti-slop control.
 
 ## Read this first if you are the implementing agent
 
@@ -31,7 +31,14 @@ Read in this order:
 4. [Agent OS Codebase Integration Guide](./agent-os-codebase-integration-guide.md)
 5. [Implementation Sequence](./implementation-sequence.md)
 6. [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
-7. The individual backend system specs under `systems/`
+7. [Read This First: Backend Quality Control Implementation](./implementation/00-read-this-first.md)
+8. [Agent OS Target File Map](./implementation/01-agent-os-target-file-map.md)
+9. [Data Model and Service Contracts](./implementation/02-data-model-and-service-contracts.md)
+10. [Code Flow and Module Behavior](./implementation/03-code-flow-and-module-behavior.md)
+11. [Frontend Integration](./implementation/04-frontend-integration.md)
+12. [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
+13. [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
+14. The individual backend system specs under `systems/`
 
 ## What this is inspired by
 
@@ -45,6 +52,7 @@ The reference system has useful backend control patterns:
 - push/open follow-up only after backend checks pass.
 - use repair workers only after the system identifies a specific failure.
 - clean up workspaces after extracting results.
+- keep project context/memory available to future workers.
 
 Agent OS should adapt these ideas for local terminal workers.
 
@@ -84,9 +92,7 @@ agent launcher/local process foundations
 
 Do not create parallel systems for these unless the existing system cannot support the required behavior.
 
-## Files
-
-Main documents:
+## Main documents
 
 - [Backend Quality Control Is Code, Not Prompts](./actual-code-not-prompts.md)
 - [System Map](./system-map.md)
@@ -95,7 +101,19 @@ Main documents:
 - [Implementation Sequence](./implementation-sequence.md)
 - [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
 
-Individual backend system specs:
+## Detailed implementation documents
+
+These files are the most concrete implementation guidance for the next coding agent:
+
+- [Read This First: Backend Quality Control Implementation](./implementation/00-read-this-first.md)
+- [Agent OS Target File Map](./implementation/01-agent-os-target-file-map.md)
+- [Data Model and Service Contracts](./implementation/02-data-model-and-service-contracts.md)
+- [Code Flow and Module Behavior](./implementation/03-code-flow-and-module-behavior.md)
+- [Frontend Integration](./implementation/04-frontend-integration.md)
+- [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
+- [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
+
+## Individual backend system specs
 
 1. [Lifecycle State Machine](./systems/01-lifecycle-state-machine.md)
 2. [Preflight and Launch Rollback](./systems/02-preflight-and-launch-rollback.md)
@@ -114,17 +132,19 @@ Build these in this order:
 ```text
 1. Managed run records
 2. Lifecycle State Machine
-3. Preflight and Launch Rollback
-4. Simple shell/test worker launch
-5. Result Inspector stub
-6. Patch, Scope, and Dirty Work Checker
-7. Verification Evidence Gate
-8. Failure Reason Classifier
-9. Worker Health Watchdog
-10. Repair Loop and Check Fixer
-11. Cleanup and Orphan Control
-12. Desktop/UI integration
-13. Codex/Claude terminal adapters
+3. Fake shell/test worker adapter
+4. Preflight and Launch Rollback
+5. Simple terminal/process runner
+6. Result Inspector stub
+7. Patch, Scope, and Dirty Work Checker
+8. Verification Evidence Gate
+9. Failure Reason Classifier
+10. Worker Health Watchdog
+11. Context Bundle and anti-slop checks
+12. Repair Loop and Check Fixer
+13. Cleanup and Orphan Control
+14. Desktop/UI integration
+15. Codex/Claude terminal adapters
 ```
 
 ## First complete milestone
@@ -132,19 +152,33 @@ Build these in this order:
 The first complete milestone should be:
 
 ```text
-A terminal worker can run, exit, and then Agent OS independently decides whether the run is valid, failed, blocked, needs repair, or ready for review.
+A fake terminal worker can run, exit, and then Agent OS independently decides whether the run is valid, failed, blocked, needs repair, or ready for review.
 ```
+
+## First implementation success test
+
+The first version must catch fake success:
+
+```text
+Worker prints: Done
+Worker exits: 0
+Files changed: none
+Verification evidence: none
+Agent OS result: blocked
+Reason: no patch produced / verification missing
+```
+
+If this does not work, the backend quality-control system is not real yet.
 
 ## Product promise
 
 When this is implemented, Stig should not need to ask:
 
 ```text
-Did the agent really do the work correctly?
+Did the agent really do the work?
+Did it run checks?
+Did it touch the right files?
+Is this safe to review?
 ```
 
-Agent OS should answer:
-
-```text
-I checked the files, patch, command evidence, verification result, scope, and approval requirements. Here is the official state and next action.
-```
+Agent OS should answer those questions with backend facts.
