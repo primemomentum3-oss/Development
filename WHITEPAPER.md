@@ -6,77 +6,78 @@ Audience: Stig and future implementation agents
 
 ## Scope of this white paper
 
-This white paper explains the structured plan layer only.
+This white paper explains the structured plans we have created.
 
-It is based on the main structured plans we created:
-
-```text
-structured-plans/agent-os-managed-worker-conversation-plan.md
-structured-plans/backend-quality-control/
-structured-plans/project-context-bundle/
-structured-plans/role-profiles-worker-contracts/
-```
+It is intentionally limited to the structured-plan layer.
 
 It does not try to explain every detailed file inside the `systems/` folders.
 
-The detailed `systems/` folders are implementation appendices. They are useful later for agents who are building the code, but they are not the scope of this white paper.
+Think of the documentation like this:
 
-This document is meant to give Stig the clean, high-level picture.
+```text
+WHITEPAPER.md
+  = natural-language overview of the structured plans
 
-## 1. Why this white paper exists
+structured-plans/*/README.md and main guide files
+  = the structured implementation plans
+
+structured-plans/*/systems/*
+  = deeper subsystem detail for implementation agents
+```
+
+This white paper focuses on:
+
+```text
+what the structured plans are
+why they matter
+how they connect
+what Agent OS has today
+what Agent OS needs next
+what the future Agent OS experience should feel like
+```
+
+## 1. Why this matters
 
 Agent OS is becoming a system for coordinating AI coding work.
 
-The hard part is no longer only:
+The question is not only:
 
 ```text
 Can an agent write code?
 ```
 
-The harder question is:
+The real question is:
 
 ```text
 Can Agent OS keep control while agents write code?
 ```
 
-This white paper explains the full structured plan in natural language.
+The structured plans we have created are about giving Agent OS that control.
 
-It connects the structured plans already created in this repository and explains how they fit together as one system.
-
-The goal is that Stig can understand:
-
-```text
-What Agent OS already has.
-What is missing.
-What the reference system teaches us.
-What new Agent OS systems we need.
-How the structured plans work together.
-What the result should feel like from Stig's point of view.
-```
+They are not random notes. They are a connected planning package.
 
 ## 2. The simple vision
 
-The long-term product vision is:
+The long-term vision is:
 
 ```text
 Stig talks to Agent OS.
 Agent OS prepares the work.
-Agent OS starts the right worker.
-Agent OS gives the worker the right context and contract.
+Agent OS gives the worker the right context.
+Agent OS gives the worker the right role.
+Agent OS starts the worker.
 Agent OS watches the worker.
 Agent OS checks the result.
-Agent OS asks Stig for decisions only when needed.
+Agent OS asks Stig only for real decisions.
 ```
 
-Stig should not need to manage loose Codex or Claude terminals by hand.
+Stig should not have to manage loose Codex or Claude terminals by hand.
 
-Terminals can still exist, but they should become managed worker rooms inside Agent OS.
+The terminal can still exist, but it should become a managed worker room inside Agent OS.
 
-## 3. Current Agent OS, in simple terms
+## 3. What Agent OS already has
 
-Agent OS already has many strong foundations.
-
-It already has concepts like:
+Agent OS already has many strong foundations:
 
 ```text
 tasks
@@ -95,48 +96,48 @@ agent launch foundations
 local process launch foundations
 agent run contract foundations
 Codex adapter foundations
+frontend terminal panes
 ```
 
-That means Agent OS already has many of the building blocks needed for trustworthy agent work.
+This is a good foundation.
 
-The issue is that these pieces need to be connected into one controlled runtime loop around terminal-based workers.
+The structured plans do not replace these pieces.
 
-## 4. The current weakness
+They explain how to connect them into one controlled worker lifecycle.
 
-The current risk is not that Agent OS has no proof system.
+## 4. The current gap
 
-The current risk is that the worker can still feel too much like a loose terminal.
-
-The weak version looks like this:
+The weak version of agent work looks like this:
 
 ```text
 Stig request
    ↓
-Terminal agent
+loose terminal agent
    ↓
-Agent says it is done
+agent says it is done
    ↓
 Stig tries to understand what happened
 ```
 
-The problem with that is:
+That creates problems:
 
 ```text
-The agent may miss context.
-The agent may change too much.
-The agent may skip verification.
-The agent may get stuck.
-The agent may say done without proof.
-Stig may have to read logs manually.
+the agent may miss context
+the agent may use the wrong command
+the agent may change too much
+the agent may skip verification
+the agent may get stuck
+the agent may say done without proof
+Stig may need to read raw logs manually
 ```
 
 Agent OS should remove that burden from Stig.
 
 ## 5. What the reference system teaches us
 
-The reference system is useful because it shows a strong control pattern.
+The reference system is useful because it shows a control pattern.
 
-The important lesson is not to copy its exact API or runtime design.
+The important lesson is not to copy its exact implementation.
 
 The useful lesson is:
 
@@ -145,77 +146,11 @@ Do not trust the agent as final truth.
 Put backend control around the agent.
 ```
 
-That pattern looks like this:
+The Agent OS version should adapt that pattern to local terminal workers.
 
-```text
-Create a run record before the agent starts.
-Give the agent a clear workspace and contract.
-Run the agent in a controlled place.
-Capture what happens.
-Run a backend closing pass after the agent exits.
-Check whether real work was produced.
-Detect fake success.
-Use repair loops only from specific failures.
-Clean up after results are extracted.
-```
+## 6. The structured plans we now have
 
-Agent OS should adapt this pattern to local terminal workers.
-
-## 6. The Agent OS version
-
-Agent OS should not become an API-only agent runner.
-
-Agent OS should be a terminal-based control system.
-
-That means:
-
-```text
-Agent OS starts local terminal workers.
-Agent OS writes or injects the work brief and context.
-Agent OS captures process output.
-Agent OS watches process health.
-Agent OS checks files, patches, verification, review, and approval.
-```
-
-The terminal worker can be Codex, Claude, a shell test worker, or another local tool.
-
-But the backend control loop should be the same.
-
-## 7. Current system vs new system
-
-### Today: pieces exist, but control is still spread out
-
-```text
-Tasks         Worktrees       Evidence       Patches       Reviews
-  │              │              │              │             │
-  └────── useful foundations exist, but worker control can feel fragmented
-```
-
-### Target: one managed work loop
-
-```text
-Stig request
-   ↓
-Work brief
-   ↓
-Context bundle
-   ↓
-Role contract
-   ↓
-Managed worker run
-   ↓
-Backend quality control
-   ↓
-Review / repair / approval
-```
-
-The new system does not replace Agent OS foundations.
-
-It connects them.
-
-## 8. The four structured plan areas
-
-The current structured plans describe four major areas.
+The structured planning package now has four main areas:
 
 ```text
 1. Managed Worker Conversation Flow
@@ -224,119 +159,134 @@ The current structured plans describe four major areas.
 4. Role Profiles and Worker Contracts
 ```
 
-Together, they turn terminal agents into controlled Agent OS workers.
+These are the structured plans this white paper is about.
 
-## 9. Structured plan 1: Managed Worker Conversation Flow
+The detailed `systems/` files are underneath those plans, but this paper stays at the plan level.
 
-This is the user-facing flow.
+## 7. Visual map of the future system
 
-It means Stig talks to Agent OS, not directly to terminals.
+The future managed Agent OS flow should look like this:
 
 ```text
-Stig says what he wants
+Stig request
    ↓
-Agent OS understands and prepares the work
+Work brief
    ↓
-Agent OS creates a work brief
+Project context bundle
    ↓
-Agent OS starts the worker terminal
+Role profile / worker contract
    ↓
-Agent OS watches and reports back
+Managed worker run
+   ↓
+Backend quality control
+   ↓
+Review / repair / approval
 ```
 
-### What it improves
+The important idea is that each layer has a job:
 
-It reduces the need for Stig to manually manage:
+```text
+Work brief
+  = what should be done
+
+Project context bundle
+  = what the worker should know
+
+Role profile / worker contract
+  = what the worker may do
+
+Managed worker run
+  = how Agent OS starts and watches the worker
+
+Backend quality control
+  = how Agent OS checks what actually happened
+
+Review / repair / approval
+  = how the result moves forward safely
+```
+
+## 8. Structured plan 1: Managed Worker Conversation Flow
+
+This plan explains how Stig should interact with Agent OS.
+
+The key idea:
+
+```text
+Stig talks to Agent OS, not directly to a loose terminal.
+```
+
+Agent OS should:
+
+```text
+understand the request
+create or connect a task
+prepare the work brief
+start the worker in managed mode
+show progress in a readable way
+surface decisions when needed
+```
+
+This improves the experience because Stig no longer needs to manage:
 
 ```text
 which terminal to use
-what prompt to write
-which agent is doing what
+which prompt to write
+which worker is doing what
 whether the worker is stuck
 what happened during the run
 what decision is needed next
 ```
 
-### What the frontend should feel like
+## 9. Structured plan 2: Backend Quality Control
 
-Stig should see:
+This plan explains the control layer around the worker.
 
-```text
-Task: Fix login bug
-Worker: Codex Builder
-Mode: Managed
-Status: Running
-Last activity: 8 seconds ago
-Next action: none yet
-```
-
-The terminal remains available, but it becomes secondary.
-
-## 10. Structured plan 2: Backend Quality Control
-
-This is the non-agent control layer.
-
-It is actual backend code, not a prompt.
-
-It checks what happened before, during, and after the worker run.
+The key idea:
 
 ```text
-Before run: Is it safe to start?
-During run: Is the worker alive and healthy?
-After run: Did it produce valid work with proof?
+The worker can write code.
+Agent OS must check the work.
 ```
 
-### What it checks
+Backend quality control should answer:
 
 ```text
-run state
-process status
-log artifact
-changed files
-scope boundaries
-patch artifact
-command evidence
-verification result
-review requirement
-approval requirement
-cleanup needs
+Was the worker allowed to start?
+Did it stay alive?
+Did it produce real changes?
+Were those changes inside scope?
+Was required verification actually run?
+Did verification pass?
+Is review or Stig approval required?
+Should this be repaired, blocked, failed, or accepted for review?
 ```
 
-### Why it matters
+This plan makes the result trustworthy because the official state comes from Agent OS records, not from the worker saying it is done.
 
-The worker can say:
+## 10. Structured plan 3: Project Context Bundle
+
+This plan explains what the worker should know before it starts.
+
+The key idea:
 
 ```text
-I am done.
+Every worker should start with the right approved project knowledge.
 ```
 
-Agent OS should answer:
+The context bundle should include things like:
 
 ```text
-Maybe. I will inspect the facts.
+task goal
+locked work brief
+approved project memory
+known project commands
+relevant reports
+known risks
+required checks
+file boundaries
 ```
 
-The official state should come from backend records, not agent confidence.
-
-## 11. Structured plan 3: Project Context Bundle
-
-This system gives every worker the right project knowledge before it starts.
-
-It prevents agents from starting blind.
-
-```text
-Task goal
-Approved memory
-Project commands
-Relevant reports
-Known risks
-Required checks
-File boundaries
-```
-
-### What it improves
-
-Without this, workers may:
+This improves quality because workers are less likely to:
 
 ```text
 use the wrong test command
@@ -346,171 +296,115 @@ ignore important task history
 change files that should not be touched
 ```
 
-With this, each worker starts with a frozen context bundle.
+Important rule:
 
-### Important rule
+```text
+Only approved memory should be trusted context.
+```
 
-Only approved memory should be treated as trusted context.
+## 11. Structured plan 4: Role Profiles and Worker Contracts
 
-Memory candidates can be useful, but they should not silently become truth.
+This plan explains what kind of worker is being launched.
 
-## 12. Structured plan 4: Role Profiles and Worker Contracts
+The key idea:
 
-This system makes every worker narrow and understandable.
+```text
+A worker should not be a general agent by default.
+A worker should have a role.
+```
 
-A worker should not just be a general agent.
-
-It should have a role.
+Examples:
 
 ```text
 Builder builds.
 Reviewer reviews.
-Fixer fixes one failure.
+Fixer fixes one specific failure.
 Verifier runs checks.
 Closer prepares the final package.
 Stig approves important work.
 ```
 
-### What it improves
-
-Without roles:
+This improves safety because Agent OS can show and enforce:
 
 ```text
-fixers refactor too much
-reviewers edit code
-builders approve themselves
-workers skip proof
-agents broaden scope without permission
+what the worker may do
+what the worker must not do
+what proof the worker must produce
+what decisions still belong to Stig
 ```
 
-With roles:
+## 12. How the plans connect
+
+The structured plans are not separate ideas.
+
+They form one lifecycle:
 
 ```text
-Agent OS knows what each worker is allowed to do.
-Agent OS can block role violations.
-Stig can see what the worker was allowed to do.
+Managed Worker Conversation Flow
+  creates the user-facing work path
+
+Project Context Bundle
+  prepares what the worker knows
+
+Role Profiles and Worker Contracts
+  define what the worker may do
+
+Backend Quality Control
+  checks what the worker actually did
 ```
 
-## 13. How the four structured plans work together
-
-The complete flow should look like this:
+A simple view:
 
 ```text
+              ┌────────────────────┐
+              │   Stig request      │
+              └─────────┬──────────┘
+                        ↓
+              ┌────────────────────┐
+              │   Work brief        │
+              └─────────┬──────────┘
+                        ↓
+        ┌───────────────┴───────────────┐
+        ↓                               ↓
+┌────────────────────┐        ┌────────────────────┐
+│ Context bundle      │        │ Role contract       │
+│ what worker knows   │        │ what worker may do  │
+└─────────┬──────────┘        └─────────┬──────────┘
+          └───────────────┬───────────────┘
+                          ↓
                 ┌────────────────────┐
-                │   Stig request      │
+                │ Managed worker run  │
                 └─────────┬──────────┘
                           ↓
                 ┌────────────────────┐
-                │   Work brief        │
+                │ Backend quality     │
+                │ control             │
                 └─────────┬──────────┘
                           ↓
-        ┌─────────────────┴─────────────────┐
-        ↓                                   ↓
-┌────────────────────┐            ┌────────────────────┐
-│ Context bundle      │            │ Role contract       │
-│ What worker knows   │            │ What worker may do  │
-└─────────┬──────────┘            └─────────┬──────────┘
-          └─────────────────┬─────────────────┘
-                            ↓
-                  ┌────────────────────┐
-                  │ Managed worker run  │
-                  └─────────┬──────────┘
-                            ↓
-                  ┌────────────────────┐
-                  │ Backend quality     │
-                  │ control             │
-                  └─────────┬──────────┘
-                            ↓
-          ┌─────────────────┴─────────────────┐
-          ↓                                   ↓
-┌────────────────────┐            ┌────────────────────┐
-│ Repair / review     │            │ Stig decision       │
-│ if needed           │            │ if needed           │
-└────────────────────┘            └────────────────────┘
+              Review / repair / approval
 ```
 
-## 14. What each structured plan contributes
+## 13. What the future frontend should show
 
-### Work brief / conversation flow
+The future Agent OS frontend should feel like a control room.
 
-Turns Stig's request into a clear job.
+It should show:
 
 ```text
-What should be done?
-What is success?
-What proof is required?
+what Agent OS understood
+what worker is assigned
+what context was given
+what role contract applies
+what the worker is doing
+what Agent OS checked
+what decision is needed
 ```
 
-### Context bundle
+The raw terminal should be available, but secondary.
 
-Gives the worker project knowledge.
+The main screen should be the official Agent OS status.
 
-```text
-What should the worker know before starting?
-```
-
-### Role contract
-
-Defines the worker boundary.
-
-```text
-What is this worker allowed to do?
-What must it not do?
-```
-
-### Managed worker run
-
-Starts and tracks the terminal worker.
-
-```text
-What process is running?
-Is it alive?
-What output is captured?
-```
-
-### Backend quality control
-
-Checks the real outcome.
-
-```text
-Was there a valid patch?
-Were files inside scope?
-Did verification pass?
-Is review or approval needed?
-```
-
-## 15. The new frontend experience
-
-The frontend should feel like a control room.
-
-Stig should not see raw terminal output first.
-
-Stig should first see:
-
-```text
-What Agent OS understood
-What worker is assigned
-What context was given
-What role contract applies
-What the worker is doing
-What Agent OS checked
-What decision is needed
-```
-
-### Main panels
-
-```text
-1. Request / task panel
-2. Work brief preview
-3. Context bundle panel
-4. Role contract panel
-5. Managed run status card
-6. Backend inspection panel
-7. Decision panel
-8. Raw terminal/logs as secondary detail
-```
-
-## 16. Example: normal successful work
+## 14. Example: successful work
 
 Stig says:
 
@@ -518,25 +412,18 @@ Stig says:
 Fix the login bug.
 ```
 
-Agent OS creates:
+Agent OS prepares:
 
 ```text
 Task: Fix login bug
-Role: Builder
 Context: login conventions, approved memory, known test command
+Role: Builder
 Contract: may edit login files, must run required checks, cannot approve itself
 ```
 
 Worker runs.
 
-Agent OS checks:
-
-```text
-Patch exists.
-Files are inside scope.
-Required verification passed.
-Review is required.
-```
+Agent OS checks the result.
 
 Frontend shows:
 
@@ -546,7 +433,7 @@ Reason: Patch exists, scope is clean, verification passed.
 Next action: Start review.
 ```
 
-## 17. Example: blocked work
+## 15. Example: blocked work
 
 Worker says:
 
@@ -557,7 +444,7 @@ Done.
 Agent OS checks and finds:
 
 ```text
-No verification evidence exists.
+Required verification was not run.
 ```
 
 Frontend shows:
@@ -570,7 +457,7 @@ Next action: Run verification or start a repair/check pass.
 
 This is the difference between trusting the worker and controlling the work.
 
-## 18. Example: role violation
+## 16. Example: role violation
 
 A reviewer changes source files.
 
@@ -580,95 +467,41 @@ Frontend shows:
 
 ```text
 Status: Blocked
-Reason: Reviewer changed source files, which this role is not allowed to do.
+Reason: Reviewer changed files, which this role is not allowed to do.
 Next action: Reject review run or start a builder/fixer run.
 ```
 
-## 19. Example: bad context
+## 17. Example: missing context
 
-A worker used the wrong test command.
+A worker uses the wrong command.
 
 Agent OS can show:
 
 ```text
 The context bundle did not include the correct command.
-A memory candidate was created:
-Use npm test -- login for login-related tasks.
+A memory candidate should be created for review.
 ```
 
-Stig or review can later approve that memory.
+After approval, future workers can receive better context.
 
-The next worker gets better context.
+## 18. High-level implementation order
 
-## 20. What Agent OS does well today
-
-Agent OS already has strong foundations:
+At the structured-plan level, the clean order is:
 
 ```text
-task records
-worktrees
-file leases
-command evidence
-verification
-patch artifacts
-review records
-approval concepts
-memory promotion
-reports
-launch/process foundations
-frontend terminal panes
+1. Managed Worker Conversation Flow
+2. Backend Quality Control foundation
+3. Project Context Bundle
+4. Role Profiles and Worker Contracts
+5. Frontend control-room views
+6. Real Codex/Claude terminal adapters
 ```
 
-This is a strong base.
+Do not start by depending on Codex or Claude behavior.
 
-The new system should not replace those.
+Start with a simple controlled worker path so Agent OS proves the lifecycle first.
 
-It should connect them into one reliable worker lifecycle.
-
-## 21. What Agent OS needs to get better at
-
-Agent OS needs stronger runtime control around terminal workers:
-
-```text
-start workers as managed runs
-build context before launch
-lock role contracts before launch
-watch workers during execution
-inspect results after execution
-block fake success
-explain failures clearly
-create narrow repair passes
-show Stig the official state in the UI
-```
-
-## 22. The structured-plan implementation order
-
-The clean order is:
-
-```text
-1. Managed worker records
-2. Managed worker state machine
-3. Preflight and launch rollback
-4. Simple shell/test worker launch
-5. Project context bundle
-6. Role profile and worker contract
-7. Output capture and log artifacts
-8. Result inspector
-9. Patch/scope checker
-10. Verification evidence gate
-11. Failure classifier
-12. Watchdog
-13. Repair loop
-14. Cleanup doctor
-15. Frontend result views
-16. Codex/Claude adapters
-```
-
-Do not start with Codex or Claude.
-
-Start with a simple shell/test worker so the backend control loop can be proven without model behavior.
-
-## 23. The most important product rule
+## 19. The most important product rule
 
 The agent can help.
 
@@ -680,26 +513,11 @@ Backend records are proof.
 Stig approval is final for important work.
 ```
 
-## 24. Final picture
+## 20. Where to read next
 
-The future Agent OS should feel like this:
+Use this white paper first.
 
-```text
-I tell Agent OS what I want.
-Agent OS creates the job.
-Agent OS gives the worker the right context.
-Agent OS gives the worker the right role.
-Agent OS runs the worker in a controlled way.
-Agent OS checks the work.
-Agent OS tells me what happened.
-Agent OS asks me only for real decisions.
-```
-
-That is how Agent OS becomes less chaotic, more trustworthy, and easier for Stig to control.
-
-## 25. Where to read next
-
-Main structured plan files and folders:
+Then read the structured plans:
 
 ```text
 structured-plans/agent-os-managed-worker-conversation-plan.md
@@ -708,6 +526,8 @@ structured-plans/project-context-bundle/
 structured-plans/role-profiles-worker-contracts/
 ```
 
-This white paper is the top-level explanation of those structured plans.
+The detailed `systems/` folders remain implementation detail.
 
-The detailed `systems/` folders are not the scope of this white paper. They remain deeper implementation appendices for later coding work.
+They are not the scope of this white paper.
+
+This white paper is the clean natural-language overview of the structured plans only.
