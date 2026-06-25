@@ -7,6 +7,8 @@ Status: structure verification note
 
 This file records how the planning documents now fit together.
 
+It also clarifies the scope of `WHITEPAPER.md`.
+
 ## Top-level narrative
 
 Start here:
@@ -17,7 +19,24 @@ WHITEPAPER.md
 
 This is the natural-language explanation for Stig and future agents.
 
-## Implementation plan folders
+## White paper scope
+
+The white paper is limited to the structured plan layer.
+
+It covers:
+
+```text
+structured-plans/agent-os-managed-worker-conversation-plan.md
+structured-plans/backend-quality-control/
+structured-plans/project-context-bundle/
+structured-plans/role-profiles-worker-contracts/
+```
+
+It does not attempt to explain every detailed file inside the `systems/` folders.
+
+The `systems/` folders are implementation appendices for later coding work.
+
+## Structured plan areas
 
 The white paper points to these implementation areas:
 
@@ -46,7 +65,7 @@ Backend Quality Control
 
 ## Verification result
 
-The documents now align around one lifecycle:
+The structured plans align around one lifecycle:
 
 ```text
 Stig request
@@ -64,7 +83,7 @@ backend quality control
 review / repair / approval
 ```
 
-## Main rule shared by all documents
+## Main rule shared by the structured plans
 
 ```text
 Worker text is not proof.
@@ -74,6 +93,8 @@ Stig approval is final for important work.
 
 ## Where detailed implementation agents should go
 
-Implementation agents should use the detailed `systems/` folders.
-
 Stig should begin with `WHITEPAPER.md`.
+
+Implementation agents can later use the detailed `systems/` folders when they need coding-level breakdowns.
+
+Those detailed files are not the white paper's scope.
