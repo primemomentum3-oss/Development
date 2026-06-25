@@ -30,7 +30,8 @@ Read in this order:
 3. [Existing Agent OS Systems Map](./agent-os-existing-systems-map.md)
 4. [Agent OS Codebase Integration Guide](./agent-os-codebase-integration-guide.md)
 5. [Implementation Sequence](./implementation-sequence.md)
-6. The individual backend system specs under `systems/`
+6. [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
+7. The individual backend system specs under `systems/`
 
 ## What this is inspired by
 
@@ -92,6 +93,7 @@ Main documents:
 - [Existing Agent OS Systems Map](./agent-os-existing-systems-map.md)
 - [Agent OS Codebase Integration Guide](./agent-os-codebase-integration-guide.md)
 - [Implementation Sequence](./implementation-sequence.md)
+- [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
 
 Individual backend system specs:
 
