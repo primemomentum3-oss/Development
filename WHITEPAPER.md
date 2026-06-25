@@ -4,6 +4,25 @@ Date: 2026-06-25
 Status: top-level white paper
 Audience: Stig and future implementation agents
 
+## Scope of this white paper
+
+This white paper explains the structured plan layer only.
+
+It is based on the main structured plans we created:
+
+```text
+structured-plans/agent-os-managed-worker-conversation-plan.md
+structured-plans/backend-quality-control/
+structured-plans/project-context-bundle/
+structured-plans/role-profiles-worker-contracts/
+```
+
+It does not try to explain every detailed file inside the `systems/` folders.
+
+The detailed `systems/` folders are implementation appendices. They are useful later for agents who are building the code, but they are not the scope of this white paper.
+
+This document is meant to give Stig the clean, high-level picture.
+
 ## 1. Why this white paper exists
 
 Agent OS is becoming a system for coordinating AI coding work.
@@ -20,7 +39,7 @@ The harder question is:
 Can Agent OS keep control while agents write code?
 ```
 
-This white paper explains the full picture in natural language.
+This white paper explains the full structured plan in natural language.
 
 It connects the structured plans already created in this repository and explains how they fit together as one system.
 
@@ -31,7 +50,7 @@ What Agent OS already has.
 What is missing.
 What the reference system teaches us.
 What new Agent OS systems we need.
-How the new systems work together.
+How the structured plans work together.
 What the result should feel like from Stig's point of view.
 ```
 
@@ -194,9 +213,9 @@ The new system does not replace Agent OS foundations.
 
 It connects them.
 
-## 8. The four major new system groups
+## 8. The four structured plan areas
 
-The current structured plans now describe four major system groups.
+The current structured plans describe four major areas.
 
 ```text
 1. Managed Worker Conversation Flow
@@ -207,7 +226,7 @@ The current structured plans now describe four major system groups.
 
 Together, they turn terminal agents into controlled Agent OS workers.
 
-## 9. System group 1: Managed Worker Conversation Flow
+## 9. Structured plan 1: Managed Worker Conversation Flow
 
 This is the user-facing flow.
 
@@ -253,7 +272,7 @@ Next action: none yet
 
 The terminal remains available, but it becomes secondary.
 
-## 10. System group 2: Backend Quality Control
+## 10. Structured plan 2: Backend Quality Control
 
 This is the non-agent control layer.
 
@@ -299,7 +318,7 @@ Maybe. I will inspect the facts.
 
 The official state should come from backend records, not agent confidence.
 
-## 11. System group 3: Project Context Bundle
+## 11. Structured plan 3: Project Context Bundle
 
 This system gives every worker the right project knowledge before it starts.
 
@@ -335,7 +354,7 @@ Only approved memory should be treated as trusted context.
 
 Memory candidates can be useful, but they should not silently become truth.
 
-## 12. System group 4: Role Profiles and Worker Contracts
+## 12. Structured plan 4: Role Profiles and Worker Contracts
 
 This system makes every worker narrow and understandable.
 
@@ -372,7 +391,7 @@ Agent OS can block role violations.
 Stig can see what the worker was allowed to do.
 ```
 
-## 13. How the four systems work together
+## 13. How the four structured plans work together
 
 The complete flow should look like this:
 
@@ -410,9 +429,9 @@ The complete flow should look like this:
 └────────────────────┘            └────────────────────┘
 ```
 
-## 14. What each system contributes
+## 14. What each structured plan contributes
 
-### Work brief
+### Work brief / conversation flow
 
 Turns Stig's request into a clear job.
 
@@ -622,7 +641,7 @@ create narrow repair passes
 show Stig the official state in the UI
 ```
 
-## 22. The implementation order
+## 22. The structured-plan implementation order
 
 The clean order is:
 
@@ -680,15 +699,15 @@ That is how Agent OS becomes less chaotic, more trustworthy, and easier for Stig
 
 ## 25. Where to read next
 
-Main structured plan folders:
+Main structured plan files and folders:
 
 ```text
+structured-plans/agent-os-managed-worker-conversation-plan.md
 structured-plans/backend-quality-control/
 structured-plans/project-context-bundle/
 structured-plans/role-profiles-worker-contracts/
-structured-plans/agent-os-managed-worker-conversation-plan.md
 ```
 
-The detailed `systems/` folders are for implementation agents.
+This white paper is the top-level explanation of those structured plans.
 
-This white paper is the top-level explanation for Stig and for anyone who needs to understand the complete system before going into implementation details.
+The detailed `systems/` folders are not the scope of this white paper. They remain deeper implementation appendices for later coding work.
