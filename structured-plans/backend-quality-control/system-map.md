@@ -19,6 +19,29 @@ Is review or Stig approval required?
 Should this be repaired, blocked, failed, or accepted for review?
 ```
 
+## No reference-system knowledge required
+
+The implementing agent does not need the reference system.
+
+The Agent OS implementation should be understood like this:
+
+```text
+Agent OS starts a local terminal worker.
+Agent OS records the run.
+Agent OS watches the process.
+Agent OS captures output.
+Agent OS inspects the worktree.
+Agent OS checks patch, scope, verification, review, and approval.
+Agent OS decides the official state.
+```
+
+The reference-system lesson is only the pattern:
+
+```text
+Do not trust the worker as final truth.
+Use backend code to control and check the lifecycle.
+```
+
 ## The backend-only control loop
 
 ```text
@@ -96,13 +119,35 @@ Agent OS should use both:
 
 But the official result must come from backend checks.
 
+## How this should plug into Agent OS
+
+Agent OS already has several foundations. The quality-control layer should sit on top of them:
+
+```text
+Task record
+  ↓
+Locked work brief / agent run contract
+  ↓
+Managed worker run record
+  ↓
+Task worktree + terminal process
+  ↓
+Event timeline + log artifact
+  ↓
+Patch artifact + command evidence + verification run
+  ↓
+Result inspector
+  ↓
+Review / approval / repair / blocked state
+```
+
 ## Minimum viable backend control
 
 The smallest useful version should do this:
 
 ```text
 - create managed run record.
-- start terminal worker.
+- start a simple terminal worker.
 - capture process exit code.
 - capture log artifact.
 - inspect Git changed files.
@@ -139,3 +184,36 @@ Changed files are inside scope.
 Required checks passed.
 Review is required before Stig approval.
 ```
+
+## What the codebase should look like after implementation
+
+The implementation should create a clear backend feature area, either:
+
+```text
+src/managed-worker/
+```
+
+or, if it fits the existing runtime structure better:
+
+```text
+src/runtime/managed-worker/
+```
+
+That area should contain separate files for:
+
+```text
+state machine
+preflight
+launch
+process adapters
+watchdog
+result inspector
+patch/scope checker
+verification gate
+failure classifier
+repair loop
+cleanup doctor
+events/artifacts bridge
+```
+
+The implementation guide has the detailed file map.
