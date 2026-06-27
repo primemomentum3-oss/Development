@@ -1,0 +1,186 @@
+# Backend Quality Control Systems
+
+Date: 2026-06-25
+Status: structured implementation specs
+Owner: Stig
+
+## Purpose
+
+This folder defines the backend-only systems Agent OS needs around managed terminal workers.
+
+These systems should work without asking an agent to reason about whether the work is valid.
+
+The main idea:
+
+```text
+The agent can write code.
+Agent OS must check the work with backend code.
+```
+
+Agent OS should use deterministic backend checks for lifecycle, safety, verification, result inspection, cleanup, failure classification, context packaging, and anti-slop control.
+
+## Read this first if you are the implementing agent
+
+You do not need access to the reference system to implement this.
+
+Read in this order:
+
+1. [Backend Quality Control Is Code, Not Prompts](./actual-code-not-prompts.md)
+2. [System Map](./system-map.md)
+3. [Existing Agent OS Systems Map](./agent-os-existing-systems-map.md)
+4. [Agent OS Codebase Integration Guide](./agent-os-codebase-integration-guide.md)
+5. [Implementation Sequence](./implementation-sequence.md)
+6. [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
+7. [Read This First: Backend Quality Control Implementation](./implementation/00-read-this-first.md)
+8. [Agent OS Target File Map](./implementation/01-agent-os-target-file-map.md)
+9. [Data Model and Service Contracts](./implementation/02-data-model-and-service-contracts.md)
+10. [Code Flow and Module Behavior](./implementation/03-code-flow-and-module-behavior.md)
+11. [Frontend Integration](./implementation/04-frontend-integration.md)
+12. [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
+13. [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
+14. [Agent OS Existing Repo Grounding](./implementation/07-agent-os-existing-repo-grounding.md)
+15. The individual backend system specs under `systems/`
+
+## What this is inspired by
+
+The reference system has useful backend control patterns:
+
+- create a run record before starting the worker.
+- keep an official run state machine.
+- watch worker health.
+- run a backend closing pass after the worker exits.
+- detect fake success, such as dirty work with no committed or packaged result.
+- push/open follow-up only after backend checks pass.
+- use repair workers only after the system identifies a specific failure.
+- clean up workspaces after extracting results.
+- keep project context/memory available to future workers.
+
+Agent OS should adapt these ideas for local terminal workers.
+
+Do not copy the API/runtime design directly.
+
+Agent OS should implement the same control pattern around local terminal processes.
+
+## What this is not
+
+This is not a prompt pack.
+
+This is not another agent role.
+
+This is not a replacement for Stig approval.
+
+This is backend control code that should keep working even if the coding agent is wrong, confused, silent, or overconfident.
+
+## Existing Agent OS systems this must reuse
+
+The backend quality-control layer should reuse Agent OS foundations where possible:
+
+```text
+tasks
+event timeline
+Git worktrees
+file leases
+command evidence
+verification runs
+reliability gates
+patch artifacts
+review records
+approval/operator decisions
+memory candidates
+reports
+agent launcher/local process foundations
+```
+
+Do not create parallel systems for these unless the existing system cannot support the required behavior.
+
+## Main documents
+
+- [Backend Quality Control Is Code, Not Prompts](./actual-code-not-prompts.md)
+- [System Map](./system-map.md)
+- [Existing Agent OS Systems Map](./agent-os-existing-systems-map.md)
+- [Agent OS Codebase Integration Guide](./agent-os-codebase-integration-guide.md)
+- [Implementation Sequence](./implementation-sequence.md)
+- [Frontend And Backend Result View](./front-end-and-back-end-result-view.md)
+
+## Detailed implementation documents
+
+These files are the most concrete implementation guidance for the next coding agent:
+
+- [Read This First: Backend Quality Control Implementation](./implementation/00-read-this-first.md)
+- [Agent OS Target File Map](./implementation/01-agent-os-target-file-map.md)
+- [Data Model and Service Contracts](./implementation/02-data-model-and-service-contracts.md)
+- [Code Flow and Module Behavior](./implementation/03-code-flow-and-module-behavior.md)
+- [Frontend Integration](./implementation/04-frontend-integration.md)
+- [Context and AI Slop Prevention](./implementation/05-context-and-slop-prevention.md)
+- [Tests, Smokes, and Acceptance Criteria](./implementation/06-tests-smokes-and-acceptance.md)
+- [Agent OS Existing Repo Grounding](./implementation/07-agent-os-existing-repo-grounding.md)
+
+## Individual backend system specs
+
+1. [Lifecycle State Machine](./systems/01-lifecycle-state-machine.md)
+2. [Preflight and Launch Rollback](./systems/02-preflight-and-launch-rollback.md)
+3. [Worker Health Watchdog](./systems/03-worker-health-watchdog.md)
+4. [Result Inspector](./systems/04-result-inspector.md)
+5. [Patch, Scope, and Dirty Work Checker](./systems/05-patch-scope-and-dirty-work-checker.md)
+6. [Verification Evidence Gate](./systems/06-verification-evidence-gate.md)
+7. [Repair Loop and Check Fixer](./systems/07-repair-loop-and-check-fixer.md)
+8. [Cleanup and Orphan Control](./systems/08-cleanup-and-orphan-control.md)
+9. [Failure Reason Classifier](./systems/09-failure-reason-classifier.md)
+
+## Priority order
+
+Build these in this order:
+
+```text
+1. Managed run records
+2. Lifecycle State Machine
+3. Fake shell/test worker adapter
+4. Preflight and Launch Rollback
+5. Simple terminal/process runner
+6. Result Inspector stub
+7. Patch, Scope, and Dirty Work Checker
+8. Verification Evidence Gate
+9. Failure Reason Classifier
+10. Worker Health Watchdog
+11. Context Bundle and anti-slop checks
+12. Repair Loop and Check Fixer
+13. Cleanup and Orphan Control
+14. Desktop/UI integration
+15. Codex/Claude terminal adapters
+```
+
+## First complete milestone
+
+The first complete milestone should be:
+
+```text
+A fake terminal worker can run, exit, and then Agent OS independently decides whether the run is valid, failed, blocked, needs repair, or ready for review.
+```
+
+## First implementation success test
+
+The first version must catch fake success:
+
+```text
+Worker prints: Done
+Worker exits: 0
+Files changed: none
+Verification evidence: none
+Agent OS result: blocked
+Reason: no patch produced / verification missing
+```
+
+If this does not work, the backend quality-control system is not real yet.
+
+## Product promise
+
+When this is implemented, Stig should not need to ask:
+
+```text
+Did the agent really do the work?
+Did it run checks?
+Did it touch the right files?
+Is this safe to review?
+```
+
+Agent OS should answer those questions with backend facts.
