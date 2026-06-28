@@ -186,6 +186,37 @@ Example structure:
 
 - “You said A earlier, but now you are saying B. These point in different directions because ____. Which direction should we follow?”
 
-## 10. Current instruction for this notes file
+## 10. Planning notes, question logs, and implementation handoff are the agent's responsibility
+
+When planning is performed, the agent is responsible for creating and maintaining clean planning materials that other agents can use during implementation.
+
+The agent should create high-quality notes that capture:
+
+- the current app idea and scope
+- important decisions already made
+- open questions still missing answers
+- questions that have already been answered
+- user preferences and constraints
+- implementation direction
+- UI decisions
+- backend decisions
+- changes made during the planning process
+
+The agent should maintain a question log so the planning process does not lose track of what has already been asked and answered.
+
+The agent should not repeatedly ask questions that have already been answered. Before asking a question, the agent should check the existing notes, decisions, and question log.
+
+The agent should also revise the implementation plan and notes as the project changes. This includes adding, changing, or removing items when new decisions are made.
+
+The notes should be written clearly enough that another agent can continue the work without needing the user to repeat the same context.
+
+The agent should always know, or be able to summarize:
+
+- what is already decided
+- what is still unclear
+- what has changed
+- what the next useful planning step is
+
+## 11. Current instruction for this notes file
 
 For now, do not create the final prompt or skill. Keep collecting, cleaning, and organizing the user's points into this running notes file.
