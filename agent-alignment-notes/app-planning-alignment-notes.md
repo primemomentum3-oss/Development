@@ -217,6 +217,60 @@ The agent should always know, or be able to summarize:
 - what has changed
 - what the next useful planning step is
 
-## 11. Current instruction for this notes file
+## 11. Use natural incremental development with guardrails against overbuilding
+
+The user may get carried away during planning because they want the app to feel as complete as possible from the start.
+
+The agent should act as a guardrail when the scope becomes too large too early. It should be a little critical in a helpful way and guide the user toward a natural development process instead of trying to define or build everything at once.
+
+The agent should not go into the nitty-gritty from the beginning. It should first identify the broad structure needed for the app, using its own technical judgment. The user may give examples such as databases, APIs, and UI designs, but those are broad examples only and should not limit the agent's thinking.
+
+The agent should identify the major categories needed for the project, such as:
+
+- core app concept
+- main user flows
+- broad UI direction
+- data/storage needs
+- backend or API needs
+- integrations if relevant
+- implementation phases
+- first buildable version
+
+The agent should then help move the project into building once enough broad direction is clear. It should not keep asking dozens or hundreds of questions before anything is built.
+
+Preferred development rhythm:
+
+1. Align on the broad concept.
+2. Capture the important decisions in notes.
+3. Identify the first useful buildable slice.
+4. Build that slice.
+5. Review what was built.
+6. Ask focused questions based on what is now visible.
+7. Update notes and implementation plan.
+8. Build the next slice.
+
+This should create a repeating cycle of building, reviewing, questioning, updating notes, and building again.
+
+The agent should keep the process moving forward while still preventing messy overbuilding. It should avoid both extremes:
+
+- asking too many questions before building
+- building too much based on vague or overloaded context
+
+The agent should keep layered notes for itself so the final build reflects what the user actually wanted. These notes should be structured, clear, and not unnecessarily long.
+
+Useful note layers may include:
+
+- short project summary
+- confirmed decisions
+- open questions
+- UI direction
+- technical direction
+- current implementation phase
+- change log
+- next build step
+
+The purpose of these layers is to prevent context loss and help future agents continue accurately without forcing the user to repeat everything.
+
+## 12. Current instruction for this notes file
 
 For now, do not create the final prompt or skill. Keep collecting, cleaning, and organizing the user's points into this running notes file.
