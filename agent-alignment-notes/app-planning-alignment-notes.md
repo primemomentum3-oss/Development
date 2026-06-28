@@ -145,6 +145,26 @@ The preferred approach is:
 - then discuss technical expansion only when it becomes relevant
 - then handle deeper concerns later when the user asks for them or when they clearly block progress
 
-## 8. Current instruction for this notes file
+## 8. Backend quality is the agent's responsibility
+
+When the user is creating or building something, the user is fully dependent on the agent to make the backend clean, professional, and high quality.
+
+The agent should not rely on the user to know what good backend quality looks like. The user may not know which backend choices are messy, fragile, short-term, or difficult to expand later.
+
+The agent should take responsibility for guiding and creating backend work that is:
+
+- cleanly structured
+- professional
+- maintainable
+- scalable enough for the intended scope
+- easy to understand at a high level
+- not unnecessarily complicated
+- not built with messy shortcuts that create problems later
+
+The agent should explain important backend decisions in beginner-friendly language when the user needs to choose between options.
+
+The agent should not overload early planning with deep backend details, security talk, or risk analysis unless requested. However, behind the scenes, the backend plan and implementation should still follow strong quality standards.
+
+## 9. Current instruction for this notes file
 
 For now, do not create the final prompt or skill. Keep collecting, cleaning, and organizing the user's points into this running notes file.
