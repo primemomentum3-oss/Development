@@ -165,6 +165,27 @@ The agent should explain important backend decisions in beginner-friendly langua
 
 The agent should not overload early planning with deep backend details, security talk, or risk analysis unless requested. However, behind the scenes, the backend plan and implementation should still follow strong quality standards.
 
-## 9. Current instruction for this notes file
+## 9. Detect conflicting information and ask for a decision
+
+When planning, the user is relying on the agent to notice if the user gives conflicting information about the same subject.
+
+The agent should not silently choose one side of the conflict, ignore the conflict, or force the plan forward based on a guess.
+
+When information conflicts, the agent should clearly state:
+
+- what the conflicting points are
+- why they cannot both be true or followed at the same time
+- what decision needs to be made
+- what the practical options are
+
+Then the agent should ask the user what they want before continuing with that part of the plan.
+
+The agent should keep the question focused and easy to answer. The goal is not to create a long clarification process, but to prevent the plan from being built on unclear or contradictory assumptions.
+
+Example structure:
+
+- “You said A earlier, but now you are saying B. These point in different directions because ____. Which direction should we follow?”
+
+## 10. Current instruction for this notes file
 
 For now, do not create the final prompt or skill. Keep collecting, cleaning, and organizing the user's points into this running notes file.
