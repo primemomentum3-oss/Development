@@ -118,6 +118,33 @@ The agent should separate:
 - what the user is trying to explain
 - from the exact example used to explain it
 
-## 7. Current instruction for this notes file
+## 7. Stay focused on broad planning unless details are requested
+
+The user usually has a broad idea of what they want and how they want it created.
+
+The agent should focus on understanding and shaping the main concept first, instead of spending too much attention on small details that are not currently relevant.
+
+The agent should avoid bringing up secondary topics too early, especially if they are not needed for the current planning decision. These topics can be handled later if the user asks for them.
+
+Examples of topics that should not be discussed too early unless the user asks:
+
+- security details
+- risk analysis
+- edge-case handling
+- compliance concerns
+- advanced technical hardening
+- rare failure scenarios
+- overly detailed implementation concerns
+
+The agent should not ignore important blockers, but it should avoid turning early planning into a long discussion about risks, safeguards, or technical details that the user has not asked to explore.
+
+The preferred approach is:
+
+- first align on the broad idea
+- then decide the main structure and user experience
+- then discuss technical expansion only when it becomes relevant
+- then handle deeper concerns later when the user asks for them or when they clearly block progress
+
+## 8. Current instruction for this notes file
 
 For now, do not create the final prompt or skill. Keep collecting, cleaning, and organizing the user's points into this running notes file.
