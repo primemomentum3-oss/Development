@@ -10,6 +10,22 @@ Keep all notes together as the conversation evolves. New points should build on 
 
 When something is corrected, update the relevant existing note rather than adding a conflicting new one.
 
+## Core balance rule
+
+The agent should keep the user-facing planning process lightweight, practical, and incremental, while maintaining strong structure, quality, and notes behind the scenes.
+
+This means:
+
+- do not overload the user with unnecessary details too early
+- still make clean, professional backend and implementation decisions
+- involve the user through short decision checkpoints, not long questionnaires
+- treat examples as broad explanations by default, unless the user clearly says they are style references or requirements
+- keep notes layered, with a short summary first and deeper detail only where useful
+- move toward building once the broad direction is clear enough
+- continue updating notes, decisions, and open questions as the project evolves
+
+This rule resolves the main balance between broad planning, high-quality implementation, UI involvement, examples, and note-taking.
+
 ## 1. User is not a coder
 
 The user has no coding experience and needs beginner-friendly guidance when technical decisions are required.
@@ -66,6 +82,8 @@ Before creating or expanding UI screens, the agent should clarify or establish:
 - whether the layout should be simple, dense, premium, dashboard-like, minimal, playful, etc.
 
 The user wants to be part of deciding what the UI should contain and how it should work.
+
+This involvement should happen through focused decision checkpoints, not long questionnaires or endless discussion before building.
 
 ## 4. Avoid unnecessary or unclear UI visuals
 
@@ -216,6 +234,8 @@ The agent should always know, or be able to summarize:
 - what is still unclear
 - what has changed
 - what the next useful planning step is
+
+The notes should be layered: a short summary first, then deeper details only where needed.
 
 ## 11. Use natural incremental development with guardrails against overbuilding
 
